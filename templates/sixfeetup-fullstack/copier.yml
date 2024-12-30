@@ -1,7 +1,7 @@
 # Copier configuration for "SFU fullstack project template"
 
 _templates_suffix: ""
-_subdirectory: {{ subdirectory }}
+_subdirectory: "{{ subdirectory }}"
 _tasks:
   - command: python hooks/post_gen_project.py
     working_directory: "{{ copier__project_slug }}"
