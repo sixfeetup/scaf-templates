@@ -3,7 +3,7 @@
 _tasks:
   - command: python hooks/post_gen_project.py
     working_directory: "{{ copier__project_slug }}"
-  - command: rm -rf hooks
+  - command: rm -rf hooks sfu-fullstack.yml
     working_directory: "{{ copier__project_slug }}"
 
 copier__project_name:
