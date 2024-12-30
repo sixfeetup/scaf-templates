@@ -1,0 +1,6 @@
+# Copier configuration for "SFU fullstack project template"
+---
+!include "templates/sixfeetup-fullstack/sfu-fullstack.yml"
+---
+_templates_suffix: ""
+_subdirectory: "{{subdirectory}}"
