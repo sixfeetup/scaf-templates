@@ -119,6 +119,11 @@ copier__create_nextjs_frontend:
   default: true
   help: "Do you want to create a Next.js frontend? (y/n) [default: Yes]"
 
+copier__debug:
+  type: bool
+  default: false
+  help: "Do you want to enable debug mode? (y/n) [default: No]"
+
 copier__mail_service:
   type: str
   default: "Mailgun"
@@ -151,11 +156,6 @@ copier__use_sentry:
   type: bool
   default: false
   help: "Do you want to integrate Sentry for error tracking? (y/n) [default: No]"
-
-copier__debug:
-  type: bool
-  default: false
-  help: "Do you want to enable debug mode? (y/n) [default: No]"
 
 copier__source_control_provider:
   type: str

@@ -249,7 +249,10 @@ def configure_git_remote():
 
 
 def main():
-    debug = "{{ copier__debug }}"
+    if "{{ copier__debug }}" == "True":
+        debug = True
+    else:
+        debug = False
 
     set_flags_in_secrets(
         DEBUG_VALUE if debug else generate_random_user(),
