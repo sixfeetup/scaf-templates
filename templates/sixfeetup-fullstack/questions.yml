@@ -163,7 +163,7 @@ copier__source_control_provider:
   choices:
     github: "github.com"
     bitbucket: "bitbucket.org"
-    No source control provider: "None"
+    No source control provider: "none"
   help: "Which source control provider do you want to use? [default: github]"
 
 copier__source_control_organization_slug:
