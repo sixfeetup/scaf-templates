@@ -1,11 +1,9 @@
-# Copier configuration for "SFU fullstack project template"
+# Copier configuration/questions for "SFU fullstack project template"
 
 _tasks:
-  - command: python hooks/post_gen_project.py
+  - command: python ../post_gen_tasks.py
     working_directory: "{{ copier__project_slug }}"
-  - command: rm -rf hooks
-    working_directory: "{{ copier__project_slug }}"
-  - command: rm sfu-fullstack.yml
+  - command: rm questions.yml post_gen_tasks.py 
 
 copier__project_name:
   type: str
