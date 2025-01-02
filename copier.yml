@@ -1,0 +1,14 @@
+# Copier configuration for "SFU fullstack project template"
+_templates_suffix: ""
+_subdirectory: "{{template_options}}"
+
+template_options:
+  type: str
+  default: "templates/sixfeetup-fullstack"
+  choices:
+    full-stack: "templates/sixfeetup-fullstack"
+  help: "Select the template to use for the project."
+
+---
+!include "templates/sixfeetup-fullstack/questions.yml"
+---
