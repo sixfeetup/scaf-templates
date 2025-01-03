@@ -9,6 +9,7 @@ template_options:
     full-stack: "templates/sixfeetup-fullstack"
   help: "Select the template to use for the project."
 
+# !include "templates/sixfeetup-fullstack/questions.yml"
 ---
-!include "templates/sixfeetup-fullstack/questions.yml"
+!include "templates/aws-templates/questions.yml"
 ---
