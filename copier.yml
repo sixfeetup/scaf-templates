@@ -1,4 +1,4 @@
-# Copier configuration for "SFU fullstack project template"
+# Copier configuration for "SFU fullstack project and aws template"
 _templates_suffix: ""
 _subdirectory: "{{template_options}}"
 
