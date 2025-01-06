@@ -2,8 +2,10 @@
 
 _tasks:
   - command: python ../tasks.py
+    when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
     working_directory: "{{ copier__project_slug }}"
   - command: rm questions.yml tasks.py 
+    when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__project_name:
   type: str
@@ -13,6 +15,7 @@ copier__project_name:
     {% if not copier__project_name.strip() %}
       "Project name cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__project_slug:
   type: str
@@ -26,6 +29,7 @@ copier__project_slug:
     {% elif not copier__project_slug.strip() %}
       "Project slug cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__project_dash:
   type: str
@@ -35,6 +39,7 @@ copier__project_dash:
     {% if not copier__project_dash.strip() %}
       "Project dash cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__description:
   type: str
@@ -44,6 +49,7 @@ copier__description:
     {% if not copier__description.strip() %}
       "Description cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__author_name:
   type: str
@@ -57,6 +63,7 @@ copier__author_name:
     {% elif not copier__author_name.replace(" ", "").isalpha() %}
      "'{{ copier__author_name }}' should contain only alphabetic characters and spaces."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__domain_name:
   type: str
@@ -66,6 +73,7 @@ copier__domain_name:
     {% if not copier__domain_name.strip() %}
       "Domain name cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__email:
   type: str
@@ -77,6 +85,7 @@ copier__email:
     {% elif "@" not in copier__email %}
       "'{{ copier__email }}' is not a valid email address."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__version:
   type: str
@@ -86,6 +95,7 @@ copier__version:
     {% if not copier__version.strip() %}
       "Version cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__timezone:
   type: str
@@ -95,6 +105,7 @@ copier__timezone:
     {% if not copier__timezone.strip() %}
       "Timezone cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__aws_region:
   type: str
@@ -104,6 +115,7 @@ copier__aws_region:
     {% if not copier__aws_region.strip() %}
       "AWS region cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__aws_account_id:
   type: str
@@ -113,16 +125,19 @@ copier__aws_account_id:
     {% if not copier__aws_account_id.strip() %}
       "AWS account ID cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__create_nextjs_frontend:
   type: bool
   default: true
   help: "Do you want to create a Next.js frontend? (y/n) [default: Yes]"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__debug:
   type: bool
   default: false
   help: "Do you want to enable debug mode? (y/n) [default: No]"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__mail_service:
   type: str
@@ -132,6 +147,7 @@ copier__mail_service:
     - "Amazon SES"
     - "Other SMTP"
   help: "Which mail service do you want to use?"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__operating_system:
   type: str
@@ -140,22 +156,26 @@ copier__operating_system:
     k3s: "k3s"
     talos: "talos"
   help: "Which operating system to use?"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__challenge:
   type: bool
   default: "{{ is_challenge_mode }}"
   help: "Do you want to enable the challenge feature? (y/n) [default: No]"
   when: false
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__use_celery:
   type: bool
   default: false
   help: "Do you want to use Celery for task management? (y/n) [default: No]"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__use_sentry:
   type: bool
   default: false
   help: "Do you want to integrate Sentry for error tracking? (y/n) [default: No]"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__source_control_provider:
   type: str
@@ -165,19 +185,23 @@ copier__source_control_provider:
     bitbucket: "bitbucket.org"
     No source control provider: "none"
   help: "Which source control provider do you want to use? [default: github]"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__source_control_organization_slug:
   type: str
   default: "sixfeetup"
   help: "What is the organization slug for the source control provider?"
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__repo_name:
   type: str
   default: "{{ copier__project_slug }}"
   help: "The name of the repository."
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 
 copier__repo_url:
   type: str
   default: "git@{{ copier__source_control_provider }}:{{ copier__source_control_organization_slug }}/{{ copier__project_slug }}.git"
   help: "The URL of the repository."
+  when: "{{ template_options == 'templates/sixfeetup-fullstack' }}"
 

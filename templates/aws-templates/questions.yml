@@ -1,17 +1,22 @@
-# Copier configuration/questions for "SFU fullstack project template"
+# Copier configuration/questions for "AWS cli Template"
+
+_tasks:
+  - command: rm questions.yml
+    when: "{{ template_options == 'templates/aws-templates' }}"
 
 copier__project_name:
   type: str
-  default: "My Awesome AWS Lambda Project"
+  default: "sam-app"
   help: "The name of your project."
   validator: >-
     {% if not copier__project_name.strip() %}
       "Project name cannot be empty."
     {% endif %}
+  when: "{{ template_options == 'templates/aws-templates' }}"
 
 copier__runtime:
   type: str
-  default: "python3.12"
+  default: "python3.13"
   help: "The python version of your project."
   choices:
     python3.8: "python3.8"
@@ -20,11 +25,17 @@ copier__runtime:
     python3.11: "python3.11"
     python3.12: "python3.12"
     python3.13: "python3.13"
+  when: "{{ template_options == 'templates/aws-templates' }}"
 
 copier__architectures:
-  type: json
+  type: str
   help: "The architecture of your project."
-  default: {"value": ["x86_64", "arm64"]}
+  default: "arm64"
+  multiselect: true
+  choices:
+    x86_64: "x86_64"
+    arm64: "arm64"
+  when: "{{ template_options == 'templates/aws-templates' }}"
 
 copier__stack_name:
   type: str

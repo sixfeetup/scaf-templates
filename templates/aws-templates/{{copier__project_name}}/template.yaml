@@ -17,9 +17,9 @@ Resources:
       CodeUri: hello_world/
       Handler: app.lambda_handler
       Runtime: {{ copier__runtime }}
-      {%- if copier__architectures.value != []%}
+      {%- if copier__architectures != []%}
       Architectures:
-      {%- for arch in copier__architectures.value %}
+      {%- for arch in copier__architectures %}
         - {{arch}}
       {%- endfor %}
       {%- endif %}
