@@ -2,16 +2,17 @@
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders.
 
-- hello_world - Code for the application's Lambda function.
+- hello_world - Code for the application's Lambda function{% if copier__package_type == "image" %} and Project Dockerfile{% endif %}.
 - events - Invocation events that you can use to invoke the function.
 - tests - Unit tests for the application code. 
 - template.yaml - A template that defines the application's AWS resources.
 
 The application uses several AWS resources, including Lambda functions and an API Gateway API. These resources are defined in the `template.yaml` file in this project. You can update the template to add AWS resources through the same deployment process that updates your application code.
-
+{% if copier__package_type != "image" %}
 If you prefer to use an integrated development environment (IDE) to build and test your application, you can use the AWS Toolkit.  
 The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI to build and deploy serverless applications on AWS. The AWS Toolkit also adds a simplified step-through debugging experience for Lambda function code. See the following links to get started.
-
+{% endif %}
+{% if copier__package_type != "image" %}
 * [CLion](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
 * [GoLand](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
 * [IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
@@ -23,7 +24,7 @@ The AWS Toolkit is an open source plug-in for popular IDEs that uses the SAM CLI
 * [DataGrip](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html)
 * [VS Code](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/welcome.html)
 * [Visual Studio](https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/welcome.html)
-
+{% endif %}
 ## Deploy the sample application
 
 The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda. It can also emulate your application's build environment and API.
@@ -31,17 +32,24 @@ The Serverless Application Model Command Line Interface (SAM CLI) is an extensio
 To use the SAM CLI, you need the following tools.
 
 * SAM CLI - [Install the SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
-* [Python 3 installed](https://www.python.org/downloads/)
 * Docker - [Install Docker community edition](https://hub.docker.com/search/?type=edition&offering=community)
+{% if copier__package_type == "image" %}
+You may need the following for local testing.
+{% endif %}
+* [Python 3 installed](https://www.python.org/downloads/)
 
 To build and deploy your application for the first time, run the following in your shell:
 
 ```bash
-sam build --use-container
+sam build{% if copier__package_type != "image" %} --use-container{% endif %}
 sam deploy --guided
 ```
 
+{% if copier__package_type == "image" %}
+The first command will build a docker image from a Dockerfile and then copy the source of your application inside the Docker image. The second command will package and deploy your application to AWS, with a series of prompts:
+{% else %}
 The first command will build the source of your application. The second command will package and deploy your application to AWS, with a series of prompts:
+{% endif %}
 
 * **Stack Name**: The name of the stack to deploy to CloudFormation. This should be unique to your account and region, and a good starting point would be something matching your project name.
 * **AWS Region**: The AWS region you want to deploy your app to.
@@ -53,13 +61,17 @@ You can find your API Gateway Endpoint URL in the output values displayed after 
 
 ## Use the SAM CLI to build and test locally
 
-Build your application with the `sam build --use-container` command.
+Build your application with the `sam build{% if copier__package_type != "image" %} --use-container{% endif %}` command.
 
 ```bash
-{{ copier__project_name }}$ sam build --use-container
+{{ copier__project_name }}$ sam build{% if copier__package_type != "image" %} --use-container{% endif %}
 ```
 
+{% if copier__package_type == "image" %}
+The SAM CLI builds a docker image from a Dockerfile and then installs dependencies defined in `hello_world/requirements.txt` inside the docker image. The processed template file is saved in the `.aws-sam/build` folder.
+{% else %}
 The SAM CLI installs dependencies defined in `hello_world/requirements.txt`, creates a deployment package, and saves it in the `.aws-sam/build` folder.
+{% endif %}
 
 Test a single function by invoking it directly with a test event. An event is a JSON document that represents the input that the function receives from the event source. Test events are included in the `events` folder in this project.
 
@@ -103,16 +115,24 @@ To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs`
 You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
 
 ## Tests
-
+{% if copier__package_type == "image" %}
+Tests are defined in the `tests` folder in this project. Use PIP to install the [pytest](https://docs.pytest.org/en/latest/) and run unit tests from your local machine.
+{% else %}
 Tests are defined in the `tests` folder in this project. Use PIP to install the test dependencies and run tests.
+{% endif %}
 
 ```bash
+{% if copier__package_type == "image" %}
+{{ copier__project_name }}$ pip install pytest pytest-mock --user
+{{ copier__project_name }}$ python -m pytest tests/ -v
+{% else %}
 {{ copier__project_name }}$ pip install -r tests/requirements.txt --user
 # unit test
 {{ copier__project_name }}$ python -m pytest tests/unit -v
 # integration test, requiring deploying the stack first.
 # Create the env variable AWS_SAM_STACK_NAME with the name of the stack we are testing
 {{ copier__project_name }}$ AWS_SAM_STACK_NAME="{{ copier__stack_name }}" python -m pytest tests/integration -v
+{% endif %}
 ```
 
 ## Cleanup

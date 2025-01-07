@@ -1,0 +1,11 @@
+{"level":"INFO","message":"[9:52:23.593 PM]: Creating new connection object"}
+{"level":"INFO","message":"[9:52:23.601 PM]: Creating Connection[id: 80f49889-5297-410d-bc9a-10a148d3c1ee] with host: gzb51676.us-east-1.snowflakecomputing.com, account: gzb51676, accessUrl: https://gzb51676.us-east-1.snowflakecomputing.com, user: six_feet_up_user, password is not provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: us-east-1, authenticator: SNOWFLAKE_JWT, ocsp mode: FAIL_OPEN, os: linux, os version: 6.8.0-49-generic"}
+{"level":"INFO","message":"[9:52:23.601 PM]: Connection[id: 80f49889-5297-410d-bc9a-10a148d3c1ee] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: VSCODE_1.11.1, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: /home/techtitan/Documents/bitbucket/Project Docs/CornerStone/db_download/id_rsa, private key pass is provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[9:52:23.602 PM]: Connection[id: 80f49889-5297-410d-bc9a-10a148d3c1ee] - connection object created successfully."}
+{"level":"INFO","message":"[9:52:23.602 PM]: Connection[id: 80f49889-5297-410d-bc9a-10a148d3c1ee] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[9:52:23.607 PM]: Connection[id: 80f49889-5297-410d-bc9a-10a148d3c1ee] - authentication successful using: SNOWFLAKE_JWT"}
+{"level":"INFO","message":"[9:52:23.608 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[9:52:23.609 PM]: No client config detected."}
+{"level":"INFO","message":"[9:52:23.609 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[9:52:23.609 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[9:52:23.611 PM]: Connection[id: 80f49889-5297-410d-bc9a-10a148d3c1ee] - connected successfully after 8.814985999997589 milliseconds"}

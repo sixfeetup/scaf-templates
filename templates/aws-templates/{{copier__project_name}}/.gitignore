@@ -241,8 +241,4 @@ $RECYCLE.BIN/
 
 */build/*
 
-# Ignore env.json
-
-env.json
-
 # End of https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode

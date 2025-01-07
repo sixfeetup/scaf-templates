@@ -9,17 +9,61 @@ Description: >
 Globals:
   Function:
     Timeout: 3
-
+    {%- if copier__xray_tracing %}
+    Tracing: Active
+    {%- endif %}
+    {% if copier__enable_logs %}
+    # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
+    LoggingConfig:
+      LogFormat: JSON
+    {%- endif %}
+  {%- if copier__xray_tracing %}
+  Api:
+    TracingEnabled: true
+  {%- endif %}
 Resources:
-  HelloWorldApi:
-    Type: AWS::Serverless::Api # More info about Api Resource: https://github.com/aws/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessapi
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      StageName: Prod
-      Auth:
-        DefaultAuthorizer: PassageTokenAuthorizer
-        Authorizers:
-          PassageTokenAuthorizer:
-            FunctionArn: !GetAtt PassageAuthFunction.Arn
+      {% if copier__package_type == "image" %}
+      PackageType: Image
+      {% else %}
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Runtime: {{ copier__runtime }}
+      {% endif %}
+      Architectures:
+      {%- for arch in copier__architectures %}
+      - {{arch}}
+      {%- endfor %}
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hello
+            Method: get
+    {% if copier__package_type == "image" %}
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./hello_world
+      DockerTag: python3.13-v1
+    {% endif %}
+  {% if copier__cloudwatch_monitor %}
+  ApplicationResourceGroup:
+    Type: AWS::ResourceGroups::Group
+    Properties:
+      Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
+        Type: CLOUDFORMATION_STACK_1_0
+  ApplicationInsightsMonitoring:
+    Type: AWS::ApplicationInsights::Application
+    Properties:
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
+      AutoConfigurationEnabled: 'true'
+  {% endif %}
+  {% if copier__auth %}
   PassageAuthFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -31,36 +75,18 @@ Resources:
         Variables:
           PASSAGE_APP_ID: dummy
           PASSAGE_API_KEY: dummy
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: hello_world/
-      Handler: app.lambda_handler
-      Runtime: {{ copier__runtime }}
-      {%- if copier__architectures != []%}
-      Architectures:
-      {%- for arch in copier__architectures %}
-        - {{arch}}
-      {%- endfor %}
-      {%- endif %}
-      Events:
-        AuthenticatedApi:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /hello
-            Method: get
-            RestApiId: !Ref HelloWorldApi
+  {% endif %}
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApiUrl:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${HelloWorldApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorldApi:
+    Description: API Gateway endpoint URL for Prod stage for Hello World function
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
   HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: Hello World Lambda Function ARN
     Value: !GetAtt HelloWorldFunction.Arn
   HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: Implicit IAM Role created for Hello World function
     Value: !GetAtt HelloWorldFunctionRole.Arn
