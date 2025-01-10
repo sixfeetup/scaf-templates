@@ -1,4 +1,4 @@
-# Copier configuration for "SFU fullstack project template"
+# Copier configuration for "SFU fullstack project and aws template"
 _templates_suffix: ""
 _subdirectory: "{{template_options}}"
 
@@ -7,8 +7,11 @@ template_options:
   default: "templates/sixfeetup-fullstack"
   choices:
     full-stack: "templates/sixfeetup-fullstack"
+    aws-lambda-api: "templates/aws-lambda-app"
   help: "Select the template to use for the project."
 
 ---
 !include "templates/sixfeetup-fullstack/questions.yml"
+---
+!include "templates/aws-lambda-app/questions.yml"
 ---
