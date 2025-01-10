@@ -2,7 +2,7 @@
 
 _tasks:
   - command: rm questions.yml
-    when: "{{ template_options == 'templates/aws-templates' }}"
+    when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__project_name:
   type: str
@@ -12,7 +12,7 @@ copier__project_name:
     {% if not copier__project_name.strip() %}
       "Project name cannot be empty."
     {% endif %}
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__runtime:
   type: str
@@ -25,7 +25,7 @@ copier__runtime:
     python3.11: "python3.11"
     python3.12: "python3.12"
     python3.13: "python3.13"
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__architectures:
   type: str
@@ -35,7 +35,7 @@ copier__architectures:
   choices:
     x86_64: "x86_64"
     arm64: "arm64"
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__package_type:
   type: str
@@ -44,32 +44,32 @@ copier__package_type:
   choices:
     zip: "zip"
     image: "image"
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__xray_tracing:
   type: bool
   help: "Would you like to enable X-Ray tracing on the function(s) in your application? (y/N) [default: No]"
   default: false
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 
 copier__cloudwatch_monitor:
   type: bool
   help: "Would you like to enable monitoring using CloudWatch Application Insights? (y/N) [default: No]"
   default: false
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__enable_logs:
   type: bool
   help: "Would you like to enable monitoring using CloudWatch Application Insights? (y/N) [default: No]"
   default: false
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__auth:
   type: bool
   help: "Do you want to enable authentication for your project? (y/n) [default: No]"
   default: false
-  when: "{{ template_options == 'templates/aws-templates' }}"
+  when: "{{ template_options == 'templates/aws-lambda-app' }}"
 
 copier__stack_name:
   type: str

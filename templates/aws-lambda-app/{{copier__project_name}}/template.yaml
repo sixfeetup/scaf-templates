@@ -39,7 +39,7 @@ Resources:
       {% if copier__package_type == "image" %}
       PackageType: Image
       {% else %}
-      CodeUri: hello_world/
+      CodeUri: ./
       Handler: app.lambda_handler
       Runtime: {{ copier__runtime }}
       {% endif %}
@@ -59,7 +59,7 @@ Resources:
     {% if copier__package_type == "image" %}
     Metadata:
       Dockerfile: Dockerfile
-      DockerContext: ./hello_world
+      DockerContext: ./
       DockerTag: python3.13-v1
     {% endif %}
   {% if copier__cloudwatch_monitor %}
@@ -81,7 +81,7 @@ Resources:
   PassageAuthFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: hello_world/
+      CodeUri: ./
       Handler: authorizer.handler
       Runtime: {{ copier__runtime }}
       Timeout: 10
